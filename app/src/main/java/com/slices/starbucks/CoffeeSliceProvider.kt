@@ -23,6 +23,12 @@ class CoffeeSliceProvider : SliceProvider() {
     private val coffeeName = "Caramel Frappuccino"
     private val requestCode = 1336
 
+    /**
+     * This function is used to setup everything before the
+     * actual call to onBindSlice. Use it to setup things
+     * you would need. As an example I set the context in a
+     * local variable in this demo.
+     */
     override fun onCreateSliceProvider(): Boolean {
 
         coffeeContext = context
@@ -30,6 +36,10 @@ class CoffeeSliceProvider : SliceProvider() {
 
     }
 
+    /**
+     *  This is the most important method, all the magic happens here.
+     *  Based on the path return the appropriate slice.
+     */
     override fun onBindSlice(sliceUri: Uri): Slice? {
 
         when(sliceUri.path) {
@@ -42,11 +52,16 @@ class CoffeeSliceProvider : SliceProvider() {
 
     }
 
+    /**
+     *  This function is a helper function to build the slice and UI
+     */
     private fun createCoffeeSlice(sliceUri: Uri) : Slice? {
 
+        // Building actions to be added
         val buyAction = SliceAction(getBuyCoffeeIntent(), IconCompat.createWithResource(coffeeContext, R.drawable.buynow), "Buy Now")
         val mainAction = SliceAction(getBuyCoffeeIntent(), IconCompat.createWithResource(coffeeContext, R.drawable.buyicon), "Open App")
 
+        // Build the ListBuilder and return the slice generated
         return ListBuilder(coffeeContext, sliceUri)
                 .setHeader {
                     it.apply {
@@ -72,6 +87,10 @@ class CoffeeSliceProvider : SliceProvider() {
                 }.build()
     }
 
+    /**
+     *  This function builds a pending intent that can be
+     *  used to bind actions from the Slice
+     */
     private fun getBuyCoffeeIntent() : PendingIntent {
 
         val intent = Intent(coffeeContext, MainActivity::class.java)
