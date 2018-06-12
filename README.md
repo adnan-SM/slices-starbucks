@@ -4,4 +4,4 @@ Android Slices Demo for Starbucks use-case. The app shows a slice for the custom
 
 This is a WIP with more and more functionality and changes being added. This is just to demonstarte the new Slices functionality.
 
-![Screenshot](https://github.com/adnan-SM/slices-starbucks/blob/master/slices.png)
+![Screenshot](https://github.com/adnan-SM/slices-starbucks/blob/master/slices.png = 200x200)
