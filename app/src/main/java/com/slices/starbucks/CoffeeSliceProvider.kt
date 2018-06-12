@@ -1,11 +1,15 @@
 package com.slices.starbucks
 
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.graphics.drawable.Icon
 import android.net.Uri
 import androidx.core.graphics.drawable.IconCompat
 import androidx.slice.Slice
 import androidx.slice.SliceProvider
 import androidx.slice.builders.ListBuilder
+import androidx.slice.builders.SliceAction
 
 /**
  * @author Adnan A M
@@ -17,6 +21,7 @@ class CoffeeSliceProvider : SliceProvider() {
     private val customerName = "Adnan"
     private val servingSize = "Grande"
     private val coffeeName = "Caramel Frappuccino"
+    private val requestCode = 1336
 
     override fun onCreateSliceProvider(): Boolean {
 
@@ -39,12 +44,14 @@ class CoffeeSliceProvider : SliceProvider() {
 
     private fun createCoffeeSlice(sliceUri: Uri) : Slice? {
 
+        val buyAction = SliceAction(getBuyCoffeeIntent(), IconCompat.createWithResource(coffeeContext, R.drawable.buynow), "Buy Now")
+        val mainAction = SliceAction(getBuyCoffeeIntent(), IconCompat.createWithResource(coffeeContext, R.drawable.buyicon), "Open App")
+
         return ListBuilder(coffeeContext, sliceUri)
                 .setHeader {
                     it.apply {
-
                         setTitle("Hello $customerName, here is your coffee !")
-
+                        setPrimaryAction(mainAction)
                     }
                 }
                 .addGridRow {
@@ -60,7 +67,16 @@ class CoffeeSliceProvider : SliceProvider() {
                     it.apply {
                         setTitle(coffeeName)
                         setSubtitle("Size - $servingSize")
+                        addEndItem(buyAction)
                     }
                 }.build()
+    }
+
+    private fun getBuyCoffeeIntent() : PendingIntent {
+
+        val intent = Intent(coffeeContext, MainActivity::class.java)
+        return PendingIntent.getActivity(coffeeContext, requestCode, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT)
+
     }
 }
